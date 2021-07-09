@@ -22,3 +22,57 @@ window.addEventListener('beforeinstallprompt', (e) => {
       });
   });
 });
+
+
+function search(){
+  var start = $('#start').val();
+  var destination = $('#destination').val();
+  $.get( "/journey/"+start+'/'+destination, function( data ) {
+
+    if(data.itineraries.length > 0){
+      $('#results').removeClass('d-none');
+    }else{
+      $('#results').addClass('d-none');
+    }
+    data.itineraries.forEach(function(value, index) {
+        $('#depart-'+index).html(value.departureTime);
+        $('#arrival-'+index).html(value.arrivalTime);
+        $('#totalDistance-'+index).html(value.distance.value + value.distance.unit);
+        $('#totalDuration-'+index).html(value.duration);
+        value.legs.forEach(function(value2) {
+          cost = 0.00;
+          if('stop' in value2.waypoints[value2.waypoints.length - 1]){
+            pointName = value2.waypoints[value2.waypoints.length - 1].stop.name;
+          }else if('location' in value2.waypoints[value2.waypoints.length - 1]){
+            pointName = value2.waypoints[value2.waypoints.length - 1].location.address;
+          }
+          type = value2.type;
+          distance = value2.distance.value + value2.distance.unit;
+          duration = value2.duration;
+          vehicle = false;
+          fareName = false;
+          fare = false;
+          if('fare' in value2){
+            fareName = value2.fare.fareProduct.name;
+            fare = value2.fare.cost.amount + ' ' + value2.fare.cost.currencyCode;
+            cost = cost + parseFloat(value2.fare.cost.amount);
+          }
+          if('vehicle' in value2){
+            vehicle = value2.vehicle.headsign;
+          }
+          $('#itinerary-'+index).append(itinerary_html(pointName, type, distance, duration, vehicle, fareName, fare));
+        });
+    });
+  });
+}
+
+function itinerary_html(pointName, type, distance, duration, vehicle, fareName, fare){
+  var html = '<hr><span class="text-primary">'+pointName+'</span><span class="float-right">'+type+'</span><br><br><span>Distance: <span class="text-info">'+distance+'</span></span><span class="float-right">Duration: <span  class="text-info">'+duration+'</span></span><br>';
+  if(vehicle !== false){
+    html = html + '<span>Vehicle: <span class="text-info">'+vehicle+'</span></span>';
+  }
+  if(fareName !== false && fare !== false){
+    html = html + '<br><br><span>'+fareName+'</span><span  class=" float-right text-info">'+fare+'</span></span>';
+  }
+  return html;
+}

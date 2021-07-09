@@ -5,10 +5,79 @@
                     <option value="<?= $stop->geometry->coordinates[0].','.  $stop->geometry->coordinates[1] ?>"><?= $stop->name ?></option>
                 <?php } ?>
 			</select>
-            <select class="form-control col" id="stop">
+            <select class="form-control col" id="destination">
             <option value="">Select Destination</option>
                 <?php foreach($stops as $stop){ ?>
                     <option value="<?= $stop->geometry->coordinates[0].','.  $stop->geometry->coordinates[1] ?>"><?= $stop->name ?></option>
                 <?php } ?>
 			</select>
 		</div>
+        <br>
+    <div class="text-center">
+        <button type="button" onClick="search();" class="btn btn-primary">Search</button>
+    </div><br>
+    <div id="results" class="d-none">
+    <div class="card">
+  <div class="card-header">
+    Depart: <span id="depart-0"></span>
+    <br>
+    Arrival: <span id="arrival-0"></span>
+  </div>
+  <div class="card-body">
+    <span>Total Distance: <span class="text-info" id="totalDistance-0"></span></span><br>
+    <span >Total Duration: <span  class="text-info" id="totalDuration-0"></span></span>
+    <span id="itinerary-0"></span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    Depart: <span id="depart-1"></span>
+    <br>
+    Arrival: <span id="arrival-1"></span>
+  </div>
+  <div class="card-body">
+    <span>Total Distance: <span class="text-info" id="totalDistance-1"></span></span><br>
+    <span >Total Duration: <span  class="text-info" id="totalDuration-1"></span></span>
+    <span id="itinerary-1"></span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    Depart: <span id="depart-2"></span>
+    <br>
+    Arrival: <span id="arrival-2"></span>
+  </div>
+  <div class="card-body">
+    <span>Total Distance: <span class="text-info" id="totalDistance-2"></span></span><br>
+    <span >Total Duration: <span  class="text-info" id="totalDuration-2"></span></span>
+    <span id="itinerary-2"></span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    Depart: <span id="depart-3"></span>
+    <br>
+    Arrival: <span id="arrival-3"></span>
+  </div>
+  <div class="card-body">
+    <span>Total Distance: <span class="text-info" id="totalDistance-3"></span></span><br>
+    <span >Total Duration: <span  class="text-info" id="totalDuration-3"></span></span>
+    <span id="itinerary-3"></span>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    Depart: <span id="depart-4"></span>
+    <br>
+    Arrival: <span id="arrival-4"></span>
+  </div>
+  <div class="card-body">
+    <span>Total Distance: <span class="text-info" id="totalDistance-4"></span></span><br>
+    <span >Total Duration: <span  class="text-info" id="totalDuration-4"></span></span>
+    <span id="itinerary-4"></span>
+  </div>
+</div>

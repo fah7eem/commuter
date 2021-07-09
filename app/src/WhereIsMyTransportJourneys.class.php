@@ -7,7 +7,7 @@ class WhereIsMyTransportJourneys extends WhereIsMyTransport {
         $this->data = $this->getJourneys($start, $destination);
     }
 
-    private function getJourneys(){
+    private function getJourneys($start,$destination){
         $curl = curl_init();
         $body = '{
             "geometry": {
@@ -37,6 +37,6 @@ class WhereIsMyTransportJourneys extends WhereIsMyTransport {
         $response = curl_exec($curl);
         $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
-        return $httpcode == '200' ? json_decode($response) : false;
+        return $httpcode == '201' ? json_decode($response) : false;
     }
 }

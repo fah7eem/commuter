@@ -15,14 +15,21 @@ $container->set('templates', function () {
     return $templates;
 });
 
-$app->get('/', function (Request $request, Response $response, $args) {
+$app->get('/', function (Request $request, Response $response) {
     $whereIsMyTransportStops = NEW WhereIsMyTransportStops();
     $stops = $whereIsMyTransportStops->data;
-    return $this->get('templates')->render($response, "home.phtml", ["title" => "Commuter", 'stops' => $stops])->withStatus(200);
+    return $this->get('templates')->render($response, $stops == false ? "unavailable.phtml" : "home.phtml", ["title" => "Commuter", 'stops' => $stops])->withStatus(200);
 });
 
-$app->get('/home', function (Request $request, Response $response, $args) {
+$app->get('/home', function (Request $request, Response $response) {
     $whereIsMyTransportStops = NEW WhereIsMyTransportStops();
     $stops = $whereIsMyTransportStops->data;
-    return $this->get('templates')->render($response, "home.phtml", ["title" => "Commuter", 'stops' => $stops])->withStatus(200);
+    return $this->get('templates')->render($response, $stops == false ? "unavailable.phtml" : "home.phtml", ["title" => "Commuter", 'stops' => $stops])->withStatus(200);
+});
+
+$app->get('/journey/{start}/{destination}', function (Request $request, Response $response, $args) {
+    $whereIsMyTransportJourneys = NEW WhereIsMyTransportJourneys($args['start'], $args['destination']);
+    $journeys = $whereIsMyTransportJourneys->data;
+    $response->getBody()->write(json_encode($journeys));
+    return $response->withAddedHeader('Content-Type','application/json')->withStatus($journeys == false ? 500 : 200);
 });

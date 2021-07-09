@@ -78,10 +78,6 @@
 					"script": {
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
-							"  const responseJson = pm.response.json();\r",
-							"  const numberOfAgencies = Object.keys(responseJson).length;\r",
-							"  const randomAgency = Math.floor(Math.random() * numberOfStops) + 1;\r",
-							"  pm.environment.set(\"WMT_AGENCY\", responseJson[randomAgency].id);\r",
 							"  pm.response.to.have.status(200);\r",
 							"});"
 						],
@@ -103,7 +99,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://platform.whereismytransport.com/api/agencies",
+					"raw": "https://platform.whereismytransport.com/api/agencies/{{WMT_AGENCY}}",
 					"protocol": "https",
 					"host": [
 						"platform",
@@ -112,7 +108,114 @@
 					],
 					"path": [
 						"api",
-						"agencies"
+						"agencies",
+						"{{WMT_AGENCY}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fares",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.collectionVariables.set(\"fare\", responseJson[0].id);\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{WMT_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://platform.whereismytransport.com/api/fareproducts?agencies={{WMT_AGENCY}}",
+					"protocol": "https",
+					"host": [
+						"platform",
+						"whereismytransport",
+						"com"
+					],
+					"path": [
+						"api",
+						"fareproducts"
+					],
+					"query": [
+						{
+							"key": "agencies",
+							"value": "{{WMT_AGENCY}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lines",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  const numberOfLines = Object.keys(responseJson).length;\r",
+							"  const randomLine = Math.floor(Math.random() * numberOfLines);\r",
+							"  pm.collectionVariables.set(\"fare\", responseJson[randomLine].id);\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{WMT_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://platform.whereismytransport.com/api/lines?agencies={{WMT_AGENCY}}",
+					"protocol": "https",
+					"host": [
+						"platform",
+						"whereismytransport",
+						"com"
+					],
+					"path": [
+						"api",
+						"lines"
+					],
+					"query": [
+						{
+							"key": "agencies",
+							"value": "{{WMT_AGENCY}}"
+						}
 					]
 				}
 			},
@@ -152,7 +255,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://platform.whereismytransport.com/api/stops?agencies={{WMT_AGENCY}}",
+					"raw": "https://platform.whereismytransport.com/api/stops?agencies={{WMT_AGENCY}}&servesLine=xYs8ETTz5k2Fxau4AXaZXA",
 					"protocol": "https",
 					"host": [
 						"platform",
@@ -167,6 +270,10 @@
 						{
 							"key": "agencies",
 							"value": "{{WMT_AGENCY}}"
+						},
+						{
+							"key": "servesLine",
+							"value": "xYs8ETTz5k2Fxau4AXaZXA"
 						}
 					]
 				}
@@ -212,7 +319,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"geometry\": {\r\n        \"type\": \"MultiPoint\",\r\n        \"coordinates\": [\r\n            [\r\n               {{firstStop}}\r\n            ],\r\n            [\r\n              {{secondStop}}\r\n            ]\r\n        ]\r\n    },\r\n    \"maxItineraries\": 5\r\n}",
+					"raw": "{\r\n    \"geometry\": {\r\n        \"type\": \"MultiPoint\",\r\n        \"coordinates\": [\r\n             [\r\n               {{firstStop}}\r\n            ],\r\n            [\r\n               {{secondStop}}\r\n            ]\r\n        ]\r\n    },\r\n    \"fareProducts\" : [\"{{fare}}\"],\r\n    \"maxItineraries\": 5\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -243,6 +350,10 @@
 		},
 		{
 			"key": "secondStop",
+			"value": ""
+		},
+		{
+			"key": "fare",
 			"value": ""
 		}
 	]

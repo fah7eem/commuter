@@ -16,10 +16,13 @@ $container->set('templates', function () {
 });
 
 $app->get('/', function (Request $request, Response $response, $args) {
-    return $this->get('templates')->render($response, "home.phtml", ["title" => "Home"])->withStatus(200);
-    return $response;
+    $whereIsMyTransportStops = NEW WhereIsMyTransportStops();
+    $stops = $whereIsMyTransportStops->data;
+    return $this->get('templates')->render($response, "home.phtml", ["title" => "Home", 'stops' => $stops])->withStatus(200);
 });
 
 $app->get('/home', function (Request $request, Response $response, $args) {
-    return $this->get('templates')->render($response, "home.phtml", ["title" => "Home"])->withStatus(200);
+    $whereIsMyTransportStops = NEW WhereIsMyTransportStops();
+    $stops = $whereIsMyTransportStops->data;
+    return $this->get('templates')->render($response, "home.phtml", ["title" => "Home", 'stops' => $stops])->withStatus(200);
 });

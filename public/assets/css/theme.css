@@ -525,7 +525,5 @@ body.dark .logo img {
 }
 
 .add-pwa {
-	position: absolute;
-	bottom:   0;
 	margin-bottom: 20px;
 }

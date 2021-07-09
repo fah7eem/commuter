@@ -1,0 +1,14 @@
+		<div class="row">
+			<select class="form-control col" id="start">
+                <option value="">Select Location</option>
+                <?php foreach($stops as $stop){ ?>
+                    <option value="<?= $stop->geometry->coordinates[0].','.  $stop->geometry->coordinates[1] ?>"><?= $stop->name ?></option>
+                <?php } ?>
+			</select>
+            <select class="form-control col" id="stop">
+            <option value="">Select Destination</option>
+                <?php foreach($stops as $stop){ ?>
+                    <option value="<?= $stop->geometry->coordinates[0].','.  $stop->geometry->coordinates[1] ?>"><?= $stop->name ?></option>
+                <?php } ?>
+			</select>
+		</div>

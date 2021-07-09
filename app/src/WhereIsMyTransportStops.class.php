@@ -12,7 +12,7 @@ Class WhereIsMyTransportStops extends WhereIsMyTransport{
         curl_setopt_array($curl, array(
         CURLOPT_URL => $this->api_url.'stops?agencies='.$this->agency_id,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => 'gzip',
+        CURLOPT_ENCODING => $this->encoding,
         CURLOPT_CUSTOMREQUEST => 'GET',
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$this->token

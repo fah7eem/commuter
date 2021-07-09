@@ -5,6 +5,7 @@ class WhereIsMyTransport {
     protected  $auth_url = WMT_AUTH_URL;
     protected  $api_url = WMT_API_URL;
     protected  $agency_id = WMT_AGENCY;
+    protected $encoding = WMT_ENCODING;
     protected  $token;
     function __construct(){
         if(!isset($_COOKIE['WMT_TOKEN'])){
@@ -18,7 +19,7 @@ class WhereIsMyTransport {
         curl_setopt_array($curl, array(
         CURLOPT_URL => $this->auth_url,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => 'gzip',
+        CURLOPT_ENCODING => $this->encoding,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS => 'client_id='.WMT_CLIENT_ID.'&client_secret='.urlencode(WMT_CLIENT_SECRET).'&grant_type=client_credentials',
         CURLOPT_HTTPHEADER => array(

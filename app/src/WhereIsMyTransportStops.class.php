@@ -20,6 +20,9 @@ Class WhereIsMyTransportStops extends WhereIsMyTransport{
         ));
         $response = curl_exec($curl);
         $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        if($httpcode == '429'){
+            setcookie('WMT_TOKEN', '', time() - 3600 , "/");
+        }
         curl_close($curl);
         return $httpcode == '200' ? json_decode($response) : false;
     }

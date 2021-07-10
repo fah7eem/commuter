@@ -38,7 +38,8 @@ function search(){
         $('#depart-'+index).html(value.departureTime);
         $('#arrival-'+index).html(value.arrivalTime);
         $('#totalDistance-'+index).html(value.distance.value + value.distance.unit);
-        $('#totalDuration-'+index).html(value.duration);
+        totalDuration = parseInt(value.duration) / 60;
+        $('#totalDuration-'+index).html(totalDuration.toFixed(2));
         value.legs.forEach(function(value2) {
           cost = 0.00;
           if('stop' in value2.waypoints[value2.waypoints.length - 1]){
@@ -48,7 +49,7 @@ function search(){
           }
           type = value2.type;
           distance = value2.distance.value + value2.distance.unit;
-          duration = value2.duration;
+          duration = parseInt(value2.duration / 60);
           vehicle = false;
           fareName = false;
           fare = false;
@@ -67,7 +68,7 @@ function search(){
 }
 
 function itinerary_html(pointName, type, distance, duration, vehicle, fareName, fare){
-  var html = '<hr><span class="text-primary">'+pointName+'</span><span class="float-right">'+type+'</span><br><br><span>Distance: <span class="text-info">'+distance+'</span></span><span class="float-right">Duration: <span  class="text-info">'+duration+'</span></span><br>';
+  var html = '<hr><span class="text-primary">'+pointName+'</span><span class="float-right">'+type+'</span><br><br><span>Distance: <span class="text-info">'+distance+'</span></span><span class="float-right">Duration: <span  class="text-info">'+duration.toFixed(2)+' minutes</span></span><br>';
   if(vehicle !== false){
     html = html + '<span>Vehicle: <span class="text-info">'+vehicle+'</span></span>';
   }

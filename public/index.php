@@ -15,5 +15,4 @@ $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 require __DIR__ . '/../app/startup.php';
-$app->add($beforeMiddleware);
 $app->run();

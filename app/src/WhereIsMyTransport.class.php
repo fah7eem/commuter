@@ -9,9 +9,10 @@ class WhereIsMyTransport {
     protected  $token;
     function __construct(){
         if(!isset($_COOKIE['WMT_TOKEN'])){
-            $this->authenticate();
-        }
+         $this->token =  $this->authenticate();
+        }else{
         $this->token = isset($_COOKIE['WMT_TOKEN']) ? $_COOKIE['WMT_TOKEN'] : false;
+        }
     }
 
     private function newToken(){
@@ -36,6 +37,7 @@ class WhereIsMyTransport {
         $token = $this->newToken();
         if($token !== false){
             setcookie('WMT_TOKEN', $token->access_token, time() + $token->expires_in, "/");
+            return $token->access_token;
         }else{
             throw new Exception('Unable to connect to resource');
         }
